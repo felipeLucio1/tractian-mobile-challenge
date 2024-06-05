@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:app/model/location.dart';
-import 'package:app/repository/company_repository.dart';
+import 'package:app/controller/repository/company_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart' as log;
 
