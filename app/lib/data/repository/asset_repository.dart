@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:app/controller/repository/company_repository.dart';
+import 'package:app/data/repository/company_repository.dart';
 import 'package:http/http.dart' as http;
-import 'package:app/model/asset.dart';
+import 'package:app/data/model/asset.dart';
 
 Future<List<Asset>> fetchAssets(String companyId) async {
   final response = await http.get(Uri.parse('$url/$companyId/assets'));
