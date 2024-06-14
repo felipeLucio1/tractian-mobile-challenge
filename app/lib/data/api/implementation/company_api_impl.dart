@@ -5,7 +5,9 @@ import 'package:app/data/model/company.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:app/data/api/implementation/utils.dart';
+import 'package:injectable/injectable.dart';
 
+@Injectable(as: FetchUserCompaniesApi)
 class CompanyApiImpl extends FetchUserCompaniesApi {
   late String companyId;
   final streamController = StreamController<List<Company>>.broadcast();

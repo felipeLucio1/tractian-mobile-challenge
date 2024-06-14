@@ -5,7 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:app/data/model/asset.dart';
 import 'package:app/data/api/implementation/utils.dart';
+import 'package:injectable/injectable.dart';
 
+@Injectable(as: FetchAssetssApi)
 class AssetApiImpl extends FetchAssetssApi {
   final streamController = StreamController.broadcast();
 

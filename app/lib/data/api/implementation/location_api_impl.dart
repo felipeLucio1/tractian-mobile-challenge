@@ -5,7 +5,9 @@ import 'package:app/data/model/location.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:app/data/api/implementation/utils.dart';
+import 'package:injectable/injectable.dart';
 
+@Injectable(as: FetchLocationsApi)
 class LocationApiImpl extends FetchLocationsApi {
   @override
   Stream<List<Location>> fetchLocations(String id) async* {
