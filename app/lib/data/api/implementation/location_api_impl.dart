@@ -16,12 +16,12 @@ class LocationApiImpl extends FetchLocationsApi {
 
     response.statusCode == 200
         ? streamController
-                .add(compute(listLocations, response.body) as List<Location>)
+                .add(compute(_listLocations, response.body) as List<Location>)
             as List<Location>
         : streamController.addError(Exception('Failed to fetch locations.'));
   }
 
-  List<Location> listLocations(String responseBody) {
+  List<Location> _listLocations(String responseBody) {
     final parsed =
         (jsonDecode(responseBody) as List).cast<Map<String, dynamic>>();
 
