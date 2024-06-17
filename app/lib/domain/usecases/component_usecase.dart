@@ -1,4 +1,6 @@
-import 'package:app/domain/repository/repository.dart';
+import 'dart:async';
+
+import 'package:app/data/model/assets_group.dart';
 import 'package:app/data/model/asset.dart';
 import 'package:app/domain/usecases/asset_usecase.dart';
 import 'package:injectable/injectable.dart';
@@ -6,11 +8,26 @@ import 'package:injectable/injectable.dart';
 @injectable
 class ComponentUsecase {
   ComponentUsecase({
-    required Repository repo,
-  }) : _repo = repo;
+    required AssetUsecase assetsUsecase,
+  }) : _assetsUsecase = assetsUsecase;
 
-  late final Repository _repo;
-  Stream<List<Asset>> _componentsList = Stream.empty();
+  late final AssetUsecase _assetsUsecase;
 
-  //Stream<List<Asset>> getComponents(String companyId) {}
+  Stream<List<AssetsGroup>> getAloneComponents(String companyId) async* {
+    final allComponentsList =
+        _assetsUsecase.getAssetsList(companyId).single as List<Asset>;
+    List<AssetsGroup> aloneAssets = [];
+    Stream<List<Asset>> subAsstsList = const Stream.empty();
+    AssetsGroup aloneAssetsGroup;
+
+    for (final component in allComponentsList) {
+      if (component.parentId == null) {
+        aloneAssetsGroup =
+            AssetsGroup(asset: component, subAssetsList: subAsstsList);
+        aloneAssets.add(aloneAssetsGroup);
+      }
+    }
+
+    yield aloneAssets;
+  }
 }
