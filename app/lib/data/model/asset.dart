@@ -1,23 +1,49 @@
-class Asset {
-  final String id;
-  final String name;
-  final String? parentId;
-  final String? sensorId;
-  final String sensorType;
-  final String status;
-  final String gatwayId;
-  final String? locationId;
+import 'package:injectable/injectable.dart';
 
-  const Asset({
-    required this.id,
-    required this.name,
-    this.parentId,
-    this.sensorId,
-    required this.sensorType,
-    required this.status,
-    required this.gatwayId,
-    this.locationId,
-  });
+@injectable
+class Asset {
+  late final String _id;
+  late final String _name;
+  late final String? _parentId;
+  late final String? _sensorId;
+  late final String _sensorType;
+  late final String _status;
+  late final String _gatwayId;
+  late final String? _locationId;
+
+  Asset({
+    required id,
+    required name,
+    parentId,
+    sensorId,
+    required sensorType,
+    required status,
+    required gatwayId,
+    locationId,
+  })  : _id = id,
+        _gatwayId = gatwayId,
+        _locationId = locationId,
+        _name = name,
+        _parentId = parentId,
+        _sensorId = sensorId,
+        _sensorType = sensorType,
+        _status = status;
+
+  String get id => _id;
+
+  String get gatwayId => _gatwayId;
+
+  String? get locationId => _locationId;
+
+  String get name => _name;
+
+  String? get parentId => _parentId;
+
+  String? get sensorId => _sensorId;
+
+  String get sensorType => _sensorType;
+
+  String get status => _status;
 
   factory Asset.fromJson(Map<String, dynamic> json) {
     return Asset(

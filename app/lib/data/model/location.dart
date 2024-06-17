@@ -1,9 +1,21 @@
-class Location {
-  final String id;
-  final String name;
-  final String? parentId;
+import 'package:injectable/injectable.dart';
 
-  const Location({required this.id, required this.name, this.parentId});
+@injectable
+class Location {
+  late final String _id;
+  late final String _name;
+  late final String? _parentId;
+
+  Location({required id, required name, parentId})
+      : _id = id,
+        _name = name,
+        _parentId = parentId;
+
+  String get id => _id;
+
+  String get name => _name;
+
+  String? get parentId => _parentId;
 
   factory Location.fromJson(Map<String, dynamic> json) {
     return Location(
