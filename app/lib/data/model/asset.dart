@@ -12,14 +12,14 @@ class Asset {
   late final String? _locationId;
 
   Asset({
-    required id,
-    required name,
-    parentId,
-    sensorId,
-    required sensorType,
-    required status,
-    required gatwayId,
-    locationId,
+    required String id,
+    required String name,
+    required String? parentId,
+    required String? sensorId,
+    required String sensorType,
+    required String status,
+    required String gatwayId,
+    required String? locationId,
   })  : _id = id,
         _gatwayId = gatwayId,
         _locationId = locationId,
