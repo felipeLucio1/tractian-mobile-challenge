@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:app/data/model/assets_group.dart';
 import 'package:app/data/model/locations_group.dart';
 import 'package:app/domain/repository/repository.dart';
 import 'package:injectable/injectable.dart';
