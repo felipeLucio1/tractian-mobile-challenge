@@ -12,13 +12,19 @@ class LocationApiImpl extends FetchLocationsApi {
   @override
   Stream<List<Location>> fetchLocations(String id) async* {
     final response = await http.get(Uri.parse('$url/$id/locations'));
-    final streamController = StreamController.broadcast();
+    final _streamController = StreamController<List<Location>>.broadcast();
+    List<Location> retrievedLocationsList = List.empty();
 
     response.statusCode == 200
-        ? streamController
-                .add(compute(_listLocations, response.body) as List<Location>)
-            as List<Location>
-        : streamController.addError(Exception('Failed to fetch locations.'));
+        ? () {
+            _streamController
+                .add(compute(_listLocations, response.body) as List<Location>);
+            retrievedLocationsList =
+                _streamController.stream.single as List<Location>;
+          }
+        : _streamController.addError(Exception('Failed to fetch locations.'));
+
+    yield retrievedLocationsList;
   }
 
   List<Location> _listLocations(String responseBody) {

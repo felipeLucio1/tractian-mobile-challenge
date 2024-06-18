@@ -14,11 +14,18 @@ class CompanyApiImpl extends FetchUserCompaniesApi {
   @override
   Stream<List<Company>> fetchCompany() async* {
     final response = await http.get(Uri.parse("$url/companies"));
+    List<Company> retrievedCompaniesList = List.empty();
 
     response.statusCode == 200
-        ? _streamController
-            .add(compute(_listCompanies, response.body) as List<Company>)
+        ? () {
+            _streamController
+                .add(compute(_listCompanies, response.body) as List<Company>);
+            retrievedCompaniesList =
+                _streamController.stream.single as List<Company>;
+          }
         : _streamController.addError(Exception('Failed to load data'));
+
+    yield retrievedCompaniesList;
   }
 
   List<Company> _listCompanies(String responseBody) {
