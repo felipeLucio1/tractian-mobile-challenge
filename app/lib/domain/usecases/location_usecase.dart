@@ -18,7 +18,15 @@ class LocationUsecase {
   Stream<List<LocationsGroup>> getCompanyAloneLocations(
       String companyId) async* {
     _populateLocationsList(companyId);
-    final iterableLocationsList = _locationsList.single as List<Location>;
+    List<LocationsGroup> aloneLocationsList =
+        _getAloneLocationsGroupList(_locationsList.single as List<Location>);
+
+    yield aloneLocationsList;
+  }
+
+  List<LocationsGroup> _getAloneLocationsGroupList(
+      List<Location> locationsList) {
+    final iterableLocationsList = locationsList;
     final List<LocationsGroup> aloneLocationsList = [];
 
     for (final location in iterableLocationsList) {
@@ -26,21 +34,32 @@ class LocationUsecase {
         aloneLocationsList.add(LocationsGroup(
             location: location,
             assetsGroupList: const Stream.empty(),
-            subLocationsList: const Stream.empty()));
+            sublocationsList: const Stream.empty()));
       }
     }
-
-    yield aloneLocationsList;
+    return aloneLocationsList;
   }
 
-  Stream<List<Location>> getLocationChildren(String? parentId) async* {
+  Stream<List<LocationsGroup>> getLocationChildren(String? parentId) async* {
     final iterableLocationsList = _locationsList.single as List<Location>;
-    final List<Location> locationChildrenList = [];
-    for (final e in iterableLocationsList) {
-      if (e.parentId == parentId) locationChildrenList.add(e);
-    }
+    final List<LocationsGroup> locationChildrenList =
+        _getLocationsGroupChildrenList(iterableLocationsList, parentId);
 
     yield locationChildrenList;
+  }
+
+  List<LocationsGroup> _getLocationsGroupChildrenList(
+      List<Location> iterableLocationsList, String? parentId) {
+    List<LocationsGroup> locationChildrenList = [];
+    for (final local in iterableLocationsList) {
+      if (local.parentId == parentId) {
+        locationChildrenList.add(LocationsGroup(
+            location: local,
+            assetsGroupList: const Stream.empty(),
+            sublocationsList: const Stream.empty()));
+      }
+    }
+    return locationChildrenList;
   }
 
   Stream<List<Location>> _populateLocationsList(String companyId) =>

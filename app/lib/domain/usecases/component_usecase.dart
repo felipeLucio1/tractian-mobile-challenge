@@ -13,7 +13,7 @@ class ComponentUsecase {
 
   late final AssetUsecase _assetsUsecase;
 
-  Stream<List<AssetsGroup>> getAloneComponents(String companyId) async* {
+  Stream<List<AssetsGroup>> getAloneAssets(String companyId) async* {
     final allComponentsList =
         _assetsUsecase.getAssetsList(companyId).single as List<Asset>;
     List<AssetsGroup> aloneAssets = [];
