@@ -6,7 +6,8 @@ class Location {
   late final String _name;
   late final String? _parentId;
 
-  Location({required id, required name, parentId})
+  Location(
+      {required String id, required String name, required String? parentId})
       : _id = id,
         _name = name,
         _parentId = parentId;

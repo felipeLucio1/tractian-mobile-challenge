@@ -22,7 +22,7 @@ class CompanyComponentsUsecase {
   Stream<CompanyComponents> getAllCompanyAloneComponents(
       Company company) async* {
     final CompanyComponents companyComponents;
-    final aloneComponents = _componentUsecase.getAloneComponents(company.id);
+    final aloneComponents = _componentUsecase.getAloneAssets(company.id);
     final locationsGoupList =
         _locationUsecase.getCompanyAloneLocations(company.id);
 
