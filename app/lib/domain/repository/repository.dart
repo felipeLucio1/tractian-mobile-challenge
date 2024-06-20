@@ -4,9 +4,11 @@ import 'package:app/data/model/company.dart';
 import 'package:app/data/model/location.dart';
 import 'package:injectable/injectable.dart';
 
+@lazySingleton
 @injectable
 class Repository {
-  const Repository({
+  @factoryMethod
+  const Repository.from({
     required FetchUserCompaniesApi fetchCompanies,
     required FetchAssetssApi fetchAssets,
     required FetchLocationsApi fetchLocations,
