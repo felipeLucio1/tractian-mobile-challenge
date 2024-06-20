@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:app/data/api/abstract/fetch_components_api.dart';
+import 'package:app/di/dependencies_register.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:app/data/model/asset.dart';
 import 'package:app/data/api/implementation/utils.dart';
 import 'package:injectable/injectable.dart';
 
+@lazySingleton
+@named
 @Injectable(as: FetchAssetssApi)
 class AssetApiImpl extends FetchAssetssApi {
   final _streamController = StreamController<List<Asset>>.broadcast();
@@ -25,6 +28,7 @@ class AssetApiImpl extends FetchAssetssApi {
           }
         : _streamController.addError(Exception('failed to load '));
 
+    LoggerWrapper().logger.info(rettrievedAssetsList.toString());
     yield rettrievedAssetsList;
   }
 

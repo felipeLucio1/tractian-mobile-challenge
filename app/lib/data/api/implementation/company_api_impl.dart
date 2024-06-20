@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:app/data/api/implementation/utils.dart';
 import 'package:injectable/injectable.dart';
 
+@lazySingleton
+@named
 @Injectable(as: FetchUserCompaniesApi)
 class CompanyApiImpl extends FetchUserCompaniesApi {
   final _streamController = StreamController<List<Company>>.broadcast();
