@@ -17,7 +17,7 @@ class LocationUsecase {
 
   Stream<List<LocationsGroup>> getCompanyAloneLocations(
       String companyId) async* {
-    _populateLocationsList(companyId);
+    getLocationsList(companyId);
     List<LocationsGroup> aloneLocationsList =
         _getAloneLocationsGroupList(_locationsList.single as List<Location>);
 
@@ -62,6 +62,6 @@ class LocationUsecase {
     return locationChildrenList;
   }
 
-  Stream<List<Location>> _populateLocationsList(String companyId) =>
+  Stream<List<Location>> getLocationsList(String companyId) =>
       _locationsList = _repo.getCompanyLocations(companyId);
 }
