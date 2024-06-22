@@ -1,7 +1,4 @@
-import 'dart:js_interop';
-
 import 'package:app/data/model/asset.dart';
-import 'package:app/data/model/company_components.dart';
 import 'package:app/data/model/location.dart';
 import 'package:app/data/model/result_component.dart';
 import 'package:app/data/model/search_obj.dart';
@@ -10,15 +7,13 @@ import 'package:app/data/model/locations_group.dart';
 import 'package:app/di/dependencies_register.dart';
 import 'package:app/domain/usecases/asset_usecase.dart';
 import 'package:app/domain/usecases/location_usecase.dart';
-import 'package:injectable/injectable.dart';
 
-@injectable
 class SearchFilterUseCase {
   final assetUseCase = getitInstance<AssetUsecase>();
   final locationUseCase = getitInstance<LocationUsecase>();
   late final String companyId;
 
-  SearchFilterUseCase({required String this.companyId});
+  SearchFilterUseCase(String this.companyId);
 
   Stream<SearchObj> search(String searchInput) async* {
     final assets = assetUseCase.getAssetsList(companyId).single as List<Asset>;

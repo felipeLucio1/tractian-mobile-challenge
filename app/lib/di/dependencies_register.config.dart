@@ -8,28 +8,27 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i19;
+import 'dart:async' as _i18;
 
 import 'package:app/data/api/abstract/fetch_components_api.dart' as _i11;
 import 'package:app/data/api/implementation/asset_api_impl.dart' as _i7;
 import 'package:app/data/api/implementation/company_api_impl.dart' as _i6;
 import 'package:app/data/api/implementation/location_api_impl.dart' as _i4;
 import 'package:app/data/model/asset.dart' as _i9;
-import 'package:app/data/model/assets_group.dart' as _i20;
+import 'package:app/data/model/assets_group.dart' as _i19;
 import 'package:app/data/model/company.dart' as _i13;
-import 'package:app/data/model/company_components.dart' as _i21;
+import 'package:app/data/model/company_components.dart' as _i20;
 import 'package:app/data/model/location.dart' as _i5;
-import 'package:app/data/model/locations_group.dart' as _i18;
+import 'package:app/data/model/locations_group.dart' as _i17;
 import 'package:app/data/model/result_component.dart' as _i12;
 import 'package:app/data/model/search_obj.dart' as _i8;
 import 'package:app/di/dependencies_register.dart' as _i3;
 import 'package:app/domain/repository/repository.dart' as _i10;
 import 'package:app/domain/usecases/asset_usecase.dart' as _i14;
-import 'package:app/domain/usecases/company_components_usecase.dart' as _i23;
+import 'package:app/domain/usecases/company_components_usecase.dart' as _i22;
 import 'package:app/domain/usecases/company_usecase.dart' as _i15;
-import 'package:app/domain/usecases/component_usecase.dart' as _i22;
+import 'package:app/domain/usecases/component_usecase.dart' as _i21;
 import 'package:app/domain/usecases/location_usecase.dart' as _i16;
-import 'package:app/domain/usecases/search_filter_usecase.dart' as _i17;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
@@ -86,12 +85,10 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i15.CompanyUsecase(repo: gh<_i10.Repository>()));
     gh.factory<_i16.LocationUsecase>(
         () => _i16.LocationUsecase(repo: gh<_i10.Repository>()));
-    gh.factory<_i17.SearchFilterUseCase>(
-        () => _i17.SearchFilterUseCase(companyId: gh<String>()));
-    gh.factory<_i18.LocationsGroup>(() => _i18.LocationsGroup(
+    gh.factory<_i17.LocationsGroup>(() => _i17.LocationsGroup(
           location: gh<_i5.Location>(),
-          assetsGroupList: gh<_i19.Stream<List<_i20.AssetsGroup>>>(),
-          sublocationsList: gh<_i19.Stream<List<_i18.LocationsGroup>>>(),
+          assetsGroupList: gh<_i18.Stream<List<_i19.AssetsGroup>>>(),
+          sublocationsList: gh<_i18.Stream<List<_i17.LocationsGroup>>>(),
         ));
     gh.factory<_i9.Asset>(() => _i9.Asset(
           id: gh<String>(),
@@ -103,22 +100,22 @@ extension GetItInjectableX on _i1.GetIt {
           gatwayId: gh<String>(),
           locationId: gh<String>(),
         ));
-    gh.factory<_i21.CompanyComponents>(() => _i21.CompanyComponents(
+    gh.factory<_i20.CompanyComponents>(() => _i20.CompanyComponents(
           company: gh<_i13.Company>(),
-          aloneAssets: gh<_i19.Stream<List<_i20.AssetsGroup>>>(),
-          locationsGoupList: gh<_i19.Stream<List<_i18.LocationsGroup>>>(),
+          aloneAssets: gh<_i18.Stream<List<_i19.AssetsGroup>>>(),
+          locationsGoupList: gh<_i18.Stream<List<_i17.LocationsGroup>>>(),
         ));
-    gh.factory<_i22.ComponentUsecase>(
-        () => _i22.ComponentUsecase(assetsUsecase: gh<_i14.AssetUsecase>()));
-    gh.factory<_i20.AssetsGroup>(() => _i20.AssetsGroup(
+    gh.factory<_i21.ComponentUsecase>(
+        () => _i21.ComponentUsecase(assetsUsecase: gh<_i14.AssetUsecase>()));
+    gh.factory<_i19.AssetsGroup>(() => _i19.AssetsGroup(
           asset: gh<_i9.Asset>(),
-          subAssetsList: gh<_i19.Stream<List<_i9.Asset>>>(),
+          subAssetsList: gh<_i18.Stream<List<_i9.Asset>>>(),
         ));
-    gh.factory<_i23.CompanyComponentsUsecase>(
-        () => _i23.CompanyComponentsUsecase(
+    gh.factory<_i22.CompanyComponentsUsecase>(
+        () => _i22.CompanyComponentsUsecase(
               assetUseCase: gh<_i14.AssetUsecase>(),
               companyUsecase: gh<_i15.CompanyUsecase>(),
-              componentUseCase: gh<_i22.ComponentUsecase>(),
+              componentUseCase: gh<_i21.ComponentUsecase>(),
               locationUseCase: gh<_i16.LocationUsecase>(),
             ));
     return this;
