@@ -1,33 +1,29 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:app/data/api/abstract/fetch_components_api.dart';
 import 'package:app/data/model/company.dart';
+import 'package:app/di/dependencies_register.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:app/data/api/implementation/utils.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton
-@named
-@Injectable(as: FetchUserCompaniesApi)
-class CompanyApiImpl extends FetchUserCompaniesApi {
-  final _streamController = StreamController<List<Company>>.broadcast();
+@injectable
+class CompanyApi {
+  final _streamController = StreamController<List<Company>>();
 
-  @override
-  Stream<List<Company>> fetchCompany() async* {
+  Future<List<Company>> fetchCompany() async {
     final response = await http.get(Uri.parse("$url/companies"));
     List<Company> retrievedCompaniesList = List.empty();
 
-    response.statusCode == 200
-        ? () {
-            _streamController
-                .add(compute(_listCompanies, response.body) as List<Company>);
-            retrievedCompaniesList =
-                _streamController.stream.single as List<Company>;
-          }
-        : _streamController.addError(Exception('Failed to load data'));
+    LoggerWrapper().logger.info(response.body);
 
-    yield retrievedCompaniesList;
+    if (response.statusCode == 200) {
+      retrievedCompaniesList = await compute(_listCompanies, response.body);
+    } else {
+      _streamController.addError(Exception('Failed to load data'));
+    }
+
+    return retrievedCompaniesList;
   }
 
   List<Company> _listCompanies(String responseBody) {

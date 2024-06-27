@@ -8,7 +8,7 @@ class LoadingCompaniesEvent extends ManagementEvent {}
 class LoadOrphanElementsEvent extends ManagementEvent {
   late final Company company;
 
-  LoadOrphanElementsEvent({required Company this.company});
+  LoadOrphanElementsEvent({required this.company});
 }
 
 class LoadingElementInfoEvent extends ManagementEvent {
@@ -16,8 +16,8 @@ class LoadingElementInfoEvent extends ManagementEvent {
   late final LocationsGroup? locationGroup;
 
   LoadingElementInfoEvent(
-      {required AssetsGroup? this.assetGroup,
-      required LocationsGroup? this.locationGroup});
+      {required this.assetGroup,
+      required this.locationGroup});
 }
 
 class SearchingOnAssetsListEvent extends ManagementEvent {
@@ -25,7 +25,7 @@ class SearchingOnAssetsListEvent extends ManagementEvent {
   late final String companyId;
 
   SearchingOnAssetsListEvent(
-      {required String this.searchInput, required String this.companyId});
+      {required this.searchInput, required this.companyId});
 }
 
 final class ChoosingResultEvent extends ManagementEvent {
@@ -33,7 +33,7 @@ final class ChoosingResultEvent extends ManagementEvent {
   late final LocationsGroup? locationGroupItem;
 
   ChoosingResultEvent(
-      AssetsGroup? this.assetGroupItem, LocationsGroup? this.locationGroupItem);
+      this.assetGroupItem, this.locationGroupItem);
 }
 
 class FilteringCriticalStatusSensorsEvent extends ManagementEvent {}

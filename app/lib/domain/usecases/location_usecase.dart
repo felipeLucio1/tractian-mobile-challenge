@@ -13,15 +13,14 @@ class LocationUsecase {
   }
 
   late final Repository _repo;
-  Stream<List<Location>> _locationsList = const Stream.empty();
+  List<Location> _locationsList = [];
 
-  Stream<List<LocationsGroup>> getCompanyAloneLocations(
-      String companyId) async* {
+  List<LocationsGroup> getCompanyAloneLocations(String companyId) {
     getLocationsList(companyId);
     List<LocationsGroup> aloneLocationsList =
         _getAloneLocationsGroupList(_locationsList.single as List<Location>);
 
-    yield aloneLocationsList;
+    return aloneLocationsList;
   }
 
   List<LocationsGroup> _getAloneLocationsGroupList(
@@ -62,6 +61,8 @@ class LocationUsecase {
     return locationChildrenList;
   }
 
-  Stream<List<Location>> getLocationsList(String companyId) =>
-      _locationsList = _repo.getCompanyLocations(companyId);
+  Future<List<Location>> getLocationsList(String companyId) async {
+    _locationsList = await _repo.getCompanyLocations(companyId);
+    return _locationsList;
+  }
 }

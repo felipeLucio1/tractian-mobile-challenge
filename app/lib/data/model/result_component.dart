@@ -9,5 +9,5 @@ class ResultComponent {
   late final Location? location;
 
   ResultComponent(
-      String? this.parentId, Asset? this.asset, Location? this.location);
+      this.parentId, this.asset, this.location);
 }

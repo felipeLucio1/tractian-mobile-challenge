@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:app/data/api/abstract/fetch_components_api.dart';
 import 'package:app/di/dependencies_register.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -8,21 +7,17 @@ import 'package:app/data/model/asset.dart';
 import 'package:app/data/api/implementation/utils.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton
-@named
-@Injectable(as: FetchAssetssApi)
-class AssetApiImpl extends FetchAssetssApi {
+@injectable
+class AssetApi {
   final _streamController = StreamController<List<Asset>>.broadcast();
 
-  @override
   Stream<List<Asset>> fetchAssets(String id) async* {
     final response = await http.get(Uri.parse('$url/$id/assets'));
     List<Asset> rettrievedAssetsList = List.empty();
 
     response.statusCode == 200
-        ? () {
-            _streamController
-                .add(compute(_getAssetsList, response.body) as List<Asset>);
+        ? () async {
+            _streamController.add(await compute(_getAssetsList, response.body));
             rettrievedAssetsList =
                 _streamController.stream.single as List<Asset>;
           }

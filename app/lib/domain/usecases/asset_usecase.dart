@@ -5,9 +5,7 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class AssetUsecase {
-  AssetUsecase({
-    required Repository repo,
-  }) : _repo = repo;
+  AssetUsecase(this._repo);
 
   late final Repository _repo;
   Stream<List<Asset>> _assetsList = const Stream.empty();
@@ -25,17 +23,16 @@ class AssetUsecase {
     return asset.sensorId == null;
   }
 
-  Stream<List<AssetsGroup>> getAssetsChildren(String assetId) async* {
+  List<AssetsGroup> getAssetsChildren(String assetId) {
     final iterableAssetsList = _assetsList.single as List<Asset>;
     final List<AssetsGroup> childrenAssetsGroup = [];
 
     for (final asset in iterableAssetsList) {
       if (asset.parentId == assetId) {
-        childrenAssetsGroup.add(
-            AssetsGroup(asset: asset, subAssetsList: const Stream.empty()));
+        childrenAssetsGroup.add(AssetsGroup(asset: asset, subAssetsList: []));
       }
     }
 
-    yield childrenAssetsGroup;
+    return childrenAssetsGroup;
   }
 }

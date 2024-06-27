@@ -1,4 +1,6 @@
-import 'package:app/data/api/abstract/fetch_components_api.dart';
+import 'package:app/data/api/implementation/asset_api_impl.dart';
+import 'package:app/data/api/implementation/company_api_impl.dart';
+import 'package:app/data/api/implementation/location_api_impl.dart';
 import 'package:app/data/model/asset.dart';
 import 'package:app/data/model/company.dart';
 import 'package:app/data/model/location.dart';
@@ -8,27 +10,25 @@ import 'package:injectable/injectable.dart';
 @injectable
 class Repository {
   @factoryMethod
-  const Repository.from({
-    required FetchUserCompaniesApi fetchCompanies,
-    required FetchAssetssApi fetchAssets,
-    required FetchLocationsApi fetchLocations,
-  })  : _fetchCompanies = fetchCompanies,
-        _fetchAssets = fetchAssets,
-        _fetchLocations = fetchLocations;
+  const Repository(
+    this._fetchCompanies,
+    this._fetchAssets,
+    this._fetchLocations,
+  );
 
-  final FetchUserCompaniesApi _fetchCompanies;
-  final FetchAssetssApi _fetchAssets;
-  final FetchLocationsApi _fetchLocations;
+  final CompanyApi _fetchCompanies;
+  final AssetApi _fetchAssets;
+  final LocationApi _fetchLocations;
 
-  Stream<List<Company>> getUserCompanies() async* {
-    yield _fetchCompanies.fetchCompany() as List<Company>;
+  Future<List<Company>> getUserCompanies() async {
+    return _fetchCompanies.fetchCompany();
   }
 
   Stream<List<Asset>> getCompanyAssets(String companyId) async* {
-    yield _fetchAssets.fetchAssets(companyId) as List<Asset>;
+    _fetchAssets.fetchAssets(companyId);
   }
 
-  Stream<List<Location>> getCompanyLocations(String companyId) async* {
-    yield _fetchLocations.fetchLocations(companyId) as List<Location>;
+  Future<List<Location>> getCompanyLocations(String companyId) async {
+    return _fetchLocations.fetchLocations(companyId);
   }
 }

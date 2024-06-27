@@ -13,14 +13,14 @@ class SearchFilterUseCase {
   final locationUseCase = getitInstance<LocationUsecase>();
   late final String companyId;
 
-  SearchFilterUseCase(String this.companyId);
+  SearchFilterUseCase(this.companyId);
 
-  Stream<SearchObj> search(String searchInput) async* {
+  SearchObj search(String searchInput) {
     final assets = assetUseCase.getAssetsList(companyId).single as List<Asset>;
     final locations =
         locationUseCase.getLocationsList(companyId) as List<Location>;
 
-    yield SearchObj(
+    return SearchObj(
         assets.where((Asset asset) => asset.name.contains(searchInput))
             as List<Asset>,
         locations.where(
@@ -28,7 +28,7 @@ class SearchFilterUseCase {
             as List<Location>);
   }
 
-  Stream<List<ResultComponent>>? composeFoundResult(dynamic component) async* {
+  List<ResultComponent>? composeFoundResult(dynamic component) {
     ResultComponent? resultComponent = _mountResultComponent(component);
 
     List<ResultComponent> componentParent = [resultComponent!];
@@ -37,7 +37,7 @@ class SearchFilterUseCase {
       List<Asset> assetsList =
           assetUseCase.getAssetsList(companyId).single as List<Asset>;
       List<Location> locationsList =
-          locationUseCase.getLocationsList(companyId).single as List<Location>;
+          locationUseCase.getLocationsList(companyId) as List<Location>;
 
       Asset? parentAsset = assetsList
           .where((Asset assetItem) => assetItem.id == parentId)
@@ -57,7 +57,7 @@ class SearchFilterUseCase {
       }
     }
 
-    yield componentParent.reversed.toList();
+    return componentParent.reversed.toList();
   }
 
   ResultComponent? _mountResultComponent(dynamic component) {

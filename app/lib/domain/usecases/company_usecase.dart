@@ -10,7 +10,5 @@ class CompanyUsecase {
 
   late final Repository _repo;
 
-  Stream<List<Company>> _getAllCompanies() => _repo.getUserCompanies();
-
-  Stream<List<Company>> get companies => _getAllCompanies();
+  Future<List<Company>> get companies => _repo.getUserCompanies();
 }

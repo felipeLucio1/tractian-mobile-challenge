@@ -19,8 +19,8 @@ class CompanyComponentsUsecase {
   late final ComponentUsecase _componentUsecase;
   late final LocationUsecase _locationUsecase;
 
-  Stream<CompanyComponents> getAllCompanyAloneComponents(
-      Company company) async* {
+  Future<CompanyComponents> getAllCompanyAloneComponents(
+      Company company) async {
     final CompanyComponents companyComponents;
     final aloneComponents = _componentUsecase.getAloneAssets(company.id);
     final locationsGoupList =
@@ -31,6 +31,6 @@ class CompanyComponentsUsecase {
         aloneAssets: aloneComponents,
         locationsGoupList: locationsGoupList);
 
-    yield companyComponents;
+    return companyComponents;
   }
 }

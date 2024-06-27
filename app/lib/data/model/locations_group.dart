@@ -9,7 +9,7 @@ class LocationsGroup {
   Stream<List<LocationsGroup>> sublocationsList = const Stream.empty();
 
   LocationsGroup(
-      {required Location this.location,
-      required Stream<List<AssetsGroup>> this.assetsGroupList,
-      required Stream<List<LocationsGroup>> this.sublocationsList});
+      {required this.location,
+      required this.assetsGroupList,
+      required this.sublocationsList});
 }

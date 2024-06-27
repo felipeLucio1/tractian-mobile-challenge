@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:app/data/model/assets_group.dart';
 import 'package:app/data/model/asset.dart';
 import 'package:app/domain/usecases/asset_usecase.dart';
@@ -13,11 +11,11 @@ class ComponentUsecase {
 
   late final AssetUsecase _assetsUsecase;
 
-  Stream<List<AssetsGroup>> getAloneAssets(String companyId) async* {
+  List<AssetsGroup> getAloneAssets(String companyId) {
     final allComponentsList =
         _assetsUsecase.getAssetsList(companyId).single as List<Asset>;
     List<AssetsGroup> aloneAssets = [];
-    Stream<List<Asset>> subAsstsList = const Stream.empty();
+    List<Asset> subAsstsList = [];
     AssetsGroup aloneAssetsGroup;
 
     for (final component in allComponentsList) {
@@ -28,6 +26,6 @@ class ComponentUsecase {
       }
     }
 
-    yield aloneAssets;
+    return aloneAssets;
   }
 }
