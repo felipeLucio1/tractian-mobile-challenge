@@ -6,9 +6,9 @@ class Asset {
   late final String _name;
   late final String? _parentId;
   late final String? _sensorId;
-  late final String _sensorType;
-  late final String _status;
-  late final String _gatwayId;
+  late final String? _sensorType;
+  late final String? _status;
+  late final String? _gatwayId;
   late final String? _locationId;
 
   Asset({
@@ -16,9 +16,9 @@ class Asset {
     required String name,
     required String? parentId,
     required String? sensorId,
-    required String sensorType,
-    required String status,
-    required String gatwayId,
+    required String? sensorType,
+    required String? status,
+    required String? gatwayId,
     required String? locationId,
   })  : _id = id,
         _gatwayId = gatwayId,
@@ -31,7 +31,7 @@ class Asset {
 
   String get id => _id;
 
-  String get gatwayId => _gatwayId;
+  String? get gatwayId => _gatwayId;
 
   String? get locationId => _locationId;
 
@@ -41,9 +41,9 @@ class Asset {
 
   String? get sensorId => _sensorId;
 
-  String get sensorType => _sensorType;
+  String? get sensorType => _sensorType;
 
-  String get status => _status;
+  String? get status => _status;
 
   factory Asset.fromJson(Map<String, dynamic> json) {
     return Asset(
@@ -51,9 +51,9 @@ class Asset {
       name: json['name'] as String,
       parentId: json['parentId'] as String?,
       sensorId: json['sensorId'] as String?,
-      sensorType: json['sensorType'] as String,
-      status: json['status'] as String,
-      gatwayId: json['gatwayId'] as String,
+      sensorType: json['sensorType'] as String?,
+      status: json['status'] as String?,
+      gatwayId: json['gatwayId'] as String?,
       locationId: json['locationId'] as String?,
     );
   }

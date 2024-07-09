@@ -15,12 +15,20 @@ class LocationUsecase {
   late final Repository _repo;
   List<Location> _locationsList = [];
 
-  List<LocationsGroup> getCompanyAloneLocations(String companyId) {
-    getLocationsList(companyId);
-    List<LocationsGroup> aloneLocationsList =
-        _getAloneLocationsGroupList(_locationsList.single as List<Location>);
+  Future<List<LocationsGroup>> getCompanyAloneLocations(
+      String companyId) async {
+    await getLocationsList(companyId);
+    List<LocationsGroup> aloneLocationsGroupList;
+    List<Location> aloneLocationsList = [];
+    for (var location in _locationsList) {
+      if (location.parentId == null) {
+        aloneLocationsList.add(location);
+      }
+    }
 
-    return aloneLocationsList;
+    aloneLocationsGroupList = _getAloneLocationsGroupList(aloneLocationsList);
+
+    return aloneLocationsGroupList;
   }
 
   List<LocationsGroup> _getAloneLocationsGroupList(
@@ -31,20 +39,18 @@ class LocationUsecase {
     for (final location in iterableLocationsList) {
       if (location.parentId == null) {
         aloneLocationsList.add(LocationsGroup(
-            location: location,
-            assetsGroupList: const Stream.empty(),
-            sublocationsList: const Stream.empty()));
+            location: location, assetsGroupList: [], sublocationsList: []));
       }
     }
     return aloneLocationsList;
   }
 
-  Stream<List<LocationsGroup>> getLocationChildren(String? parentId) async* {
-    final iterableLocationsList = _locationsList.single as List<Location>;
+  List<LocationsGroup> getLocationChildren(String? parentId) {
+    final iterableLocationsList = _locationsList;
     final List<LocationsGroup> locationChildrenList =
         _getLocationsGroupChildrenList(iterableLocationsList, parentId);
 
-    yield locationChildrenList;
+    return locationChildrenList;
   }
 
   List<LocationsGroup> _getLocationsGroupChildrenList(
@@ -53,9 +59,7 @@ class LocationUsecase {
     for (final local in iterableLocationsList) {
       if (local.parentId == parentId) {
         locationChildrenList.add(LocationsGroup(
-            location: local,
-            assetsGroupList: const Stream.empty(),
-            sublocationsList: const Stream.empty()));
+            location: local, assetsGroupList: [], sublocationsList: []));
       }
     }
     return locationChildrenList;

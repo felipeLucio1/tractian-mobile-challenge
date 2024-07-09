@@ -1,7 +1,7 @@
+import 'package:app/data/model/assets_group.dart';
 import 'package:app/data/model/company_components.dart';
 import 'package:app/data/model/company.dart';
-import 'package:app/domain/usecases/asset_usecase.dart';
-import 'package:app/domain/usecases/company_usecase.dart';
+import 'package:app/data/model/locations_group.dart';
 import 'package:app/domain/usecases/component_usecase.dart';
 import 'package:app/domain/usecases/location_usecase.dart';
 import 'package:injectable/injectable.dart';
@@ -9,8 +9,6 @@ import 'package:injectable/injectable.dart';
 @injectable
 class CompanyComponentsUsecase {
   CompanyComponentsUsecase({
-    required AssetUsecase assetUseCase,
-    required CompanyUsecase companyUsecase,
     required ComponentUsecase componentUseCase,
     required LocationUsecase locationUseCase,
   })  : _componentUsecase = componentUseCase,
@@ -22,9 +20,10 @@ class CompanyComponentsUsecase {
   Future<CompanyComponents> getAllCompanyAloneComponents(
       Company company) async {
     final CompanyComponents companyComponents;
-    final aloneComponents = _componentUsecase.getAloneAssets(company.id);
-    final locationsGoupList =
-        _locationUsecase.getCompanyAloneLocations(company.id);
+    final List<AssetsGroup> aloneComponents =
+        await _componentUsecase.getCompanyAloneAssets(company.id);
+    final List<LocationsGroup> locationsGoupList =
+        await _locationUsecase.getCompanyAloneLocations(company.id);
 
     companyComponents = CompanyComponents(
         company: company,

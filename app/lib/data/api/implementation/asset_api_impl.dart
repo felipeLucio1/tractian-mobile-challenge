@@ -9,28 +9,23 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class AssetApi {
-  final _streamController = StreamController<List<Asset>>.broadcast();
-
-  Stream<List<Asset>> fetchAssets(String id) async* {
+  Future<List<Asset>> fetchAssets(String id) async {
     final response = await http.get(Uri.parse('$url/$id/assets'));
-    List<Asset> rettrievedAssetsList = List.empty();
+    List<Asset> rettrievedAssetsList = List<Asset>.empty();
 
-    response.statusCode == 200
-        ? () async {
-            _streamController.add(await compute(_getAssetsList, response.body));
-            rettrievedAssetsList =
-                _streamController.stream.single as List<Asset>;
-          }
-        : _streamController.addError(Exception('failed to load '));
+    if (response.statusCode == 200) {
+      rettrievedAssetsList = await compute(_getAssetsList, response.body);
+    }
 
     LoggerWrapper().logger.info(rettrievedAssetsList.toString());
-    yield rettrievedAssetsList;
+    return rettrievedAssetsList;
   }
 
   List<Asset> _getAssetsList(responseBody) {
     final parsed =
         (jsonDecode(responseBody) as List).cast<Map<String, dynamic>>();
 
-    return parsed.map<Asset>((json) => Asset.fromJson(json)).toList();
+    final list = parsed.map<Asset>((json) => Asset.fromJson(json)).toList();
+    return list;
   }
 }

@@ -9,18 +9,14 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class CompanyApi {
-  final _streamController = StreamController<List<Company>>();
-
   Future<List<Company>> fetchCompany() async {
-    final response = await http.get(Uri.parse("$url/companies"));
+    final response = await http.get(Uri.parse(url));
     List<Company> retrievedCompaniesList = List.empty();
 
     LoggerWrapper().logger.info(response.body);
 
     if (response.statusCode == 200) {
       retrievedCompaniesList = await compute(_listCompanies, response.body);
-    } else {
-      _streamController.addError(Exception('Failed to load data'));
     }
 
     return retrievedCompaniesList;

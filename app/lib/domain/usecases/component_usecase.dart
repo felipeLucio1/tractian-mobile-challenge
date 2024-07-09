@@ -11,17 +11,17 @@ class ComponentUsecase {
 
   late final AssetUsecase _assetsUsecase;
 
-  List<AssetsGroup> getAloneAssets(String companyId) {
-    final allComponentsList =
-        _assetsUsecase.getAssetsList(companyId).single as List<Asset>;
+  Future<List<AssetsGroup>> getCompanyAloneAssets(String companyId) async {
+    final List<Asset> allComponentsList =
+        await _assetsUsecase.getAssetsList(companyId);
     List<AssetsGroup> aloneAssets = [];
-    List<Asset> subAsstsList = [];
+    List<Asset> subAssetsList = [];
     AssetsGroup aloneAssetsGroup;
 
     for (final component in allComponentsList) {
       if (component.parentId == null) {
         aloneAssetsGroup =
-            AssetsGroup(asset: component, subAssetsList: subAsstsList);
+            AssetsGroup(asset: component, subAssetsList: subAssetsList);
         aloneAssets.add(aloneAssetsGroup);
       }
     }

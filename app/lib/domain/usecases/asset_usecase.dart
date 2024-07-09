@@ -8,15 +8,15 @@ class AssetUsecase {
   AssetUsecase(this._repo);
 
   late final Repository _repo;
-  Stream<List<Asset>> _assetsList = const Stream.empty();
+  List<Asset> _assetsList = List<Asset>.empty();
 
-  Stream<List<Asset>> getAssetsList(String companyId) => _getAssets(companyId);
+  Future<List<Asset>> getAssetsList(String companyId) async =>
+      await _getAssets(companyId);
 
-  Stream<List<Asset>> _getAssets(String companyId) {
-    _assetsList = _repo.getCompanyAssets(companyId);
+  Future<List<Asset>> _getAssets(String companyId) async {
+    _assetsList = await _repo.getCompanyAssets(companyId);
 
-    return _assetsList.where(
-        (List<Asset> assets) => assets.forEach(_assetsWithoutSensor) as bool);
+    return _assetsList;
   }
 
   bool _assetsWithoutSensor(Asset asset) {
@@ -24,10 +24,9 @@ class AssetUsecase {
   }
 
   List<AssetsGroup> getAssetsChildren(String assetId) {
-    final iterableAssetsList = _assetsList.single as List<Asset>;
     final List<AssetsGroup> childrenAssetsGroup = [];
 
-    for (final asset in iterableAssetsList) {
+    for (final asset in _assetsList) {
       if (asset.parentId == assetId) {
         childrenAssetsGroup.add(AssetsGroup(asset: asset, subAssetsList: []));
       }

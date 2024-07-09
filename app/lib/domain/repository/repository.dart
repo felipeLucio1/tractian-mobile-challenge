@@ -20,15 +20,12 @@ class Repository {
   final AssetApi _fetchAssets;
   final LocationApi _fetchLocations;
 
-  Future<List<Company>> getUserCompanies() async {
-    return _fetchCompanies.fetchCompany();
-  }
+  Future<List<Company>> getUserCompanies() async =>
+      await _fetchCompanies.fetchCompany();
 
-  Stream<List<Asset>> getCompanyAssets(String companyId) async* {
-    _fetchAssets.fetchAssets(companyId);
-  }
+  Future<List<Asset>> getCompanyAssets(String companyId) async =>
+      await _fetchAssets.fetchAssets(companyId);
 
-  Future<List<Location>> getCompanyLocations(String companyId) async {
-    return _fetchLocations.fetchLocations(companyId);
-  }
+  Future<List<Location>> getCompanyLocations(String companyId) async =>
+      await _fetchLocations.fetchLocations(companyId);
 }

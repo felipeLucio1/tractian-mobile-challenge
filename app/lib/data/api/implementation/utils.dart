@@ -1,1 +1,1 @@
-const url = "https://fake-api.tractian.com";
+const url = "https://fake-api.tractian.com/companies";

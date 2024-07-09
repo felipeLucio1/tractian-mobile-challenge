@@ -15,9 +15,9 @@ class SearchFilterUseCase {
 
   SearchFilterUseCase(this.companyId);
 
-  SearchObj search(String searchInput) {
-    final assets = assetUseCase.getAssetsList(companyId).single as List<Asset>;
-    final locations =
+  Future<SearchObj> search(String searchInput) async {
+    final List<Asset> assets = await assetUseCase.getAssetsList(companyId);
+    final List<Location> locations =
         locationUseCase.getLocationsList(companyId) as List<Location>;
 
     return SearchObj(
@@ -28,16 +28,15 @@ class SearchFilterUseCase {
             as List<Location>);
   }
 
-  List<ResultComponent>? composeFoundResult(dynamic component) {
+  Future<List<ResultComponent>?> composeFoundResult(dynamic component) async {
     ResultComponent? resultComponent = _mountResultComponent(component);
 
     List<ResultComponent> componentParent = [resultComponent!];
     String? parentId = resultComponent.parentId;
     while (parentId != null) {
-      List<Asset> assetsList =
-          assetUseCase.getAssetsList(companyId).single as List<Asset>;
+      List<Asset> assetsList = await assetUseCase.getAssetsList(companyId);
       List<Location> locationsList =
-          locationUseCase.getLocationsList(companyId) as List<Location>;
+          await locationUseCase.getLocationsList(companyId);
 
       Asset? parentAsset = assetsList
           .where((Asset assetItem) => assetItem.id == parentId)
